@@ -30,7 +30,8 @@ app.get("/", async (req, res) => {
     bearerToken = getBearerToken(req.headers);
     console.log("token", { bearerToken });
 
-    // if the bearerToken is signed by another kid, how do i know which key to use?
+    buff = jose.util.asBuffer(bearerToken);
+    console.log(buff);
 
     let verifyBearerTokenKeystore = await jose.JWK.asKeyStore(mypubkey);
     verifyBearerTokenResult = await jose.JWS.createVerify(

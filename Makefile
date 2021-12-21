@@ -10,3 +10,7 @@ list:
 
 createToken:
 	echo -n message | step-cli crypto jws sign --key priv.json
+
+nToken:
+	echo -n message | step-cli crypto jws sign --jku=https://raw.githubusercontent.com/venturemark/jwks/main/.well-known/keys.json --key priv.json | base64 -d
+
