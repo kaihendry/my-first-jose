@@ -1,1 +1,2 @@
-curlie -i -H "Authorization: Bearer <ACCESS_TOKEN>" http://localhost:3000
+TOKEN=eyJhbGciOiJFUzI1NiIsImtpZCI6InoyVV9vd2VtcVJMT1FZRWhpU1gxZlVyUHA3MmhYU0c2ZEt5OHFVdnUxRFkifQ.bWVzc2FnZQ.NXe5C1FGPyaVoLhN5_kZWIizZQbljySMSHPyoYGMAmBKocg5GhjnpHZmzVIS7E1anemYUt2dcVpAywwafSYcEA
+curlie -i -H "Authorization: Bearer $TOKEN" http://localhost:3000

@@ -3,6 +3,24 @@ const jose = require("node-jose");
 const log = require("lambda-log");
 const mypubkey = require("./ks.json");
 
+function getBearerToken(headers) {
+  var authHeader = headers.Authorization || headers.authorization;
+
+  if (!authHeader) {
+    return null;
+  }
+
+  var authzHeaders = authHeader.split(",");
+  var bearer = null;
+  for (var i in authzHeaders) {
+    if (authzHeaders[i].startsWith("Bearer ")) {
+      bearer = authzHeaders[i].substring("Bearer ".length);
+    }
+  }
+
+  return bearer;
+}
+
 var app = express();
 
 app.use(express.json());
@@ -12,7 +30,8 @@ app.get("/", async (req, res) => {
   var verifyBearerTokenResult = null;
 
   try {
-    bearerToken = req.headers.authorization;
+    bearerToken = getBearerToken(req.headers);
+    log.info("token", { bearerToken });
     let verifyBearerTokenKeystore = await jose.JWK.asKeyStore(mypubkey);
     verifyBearerTokenResult = await jose.JWS.createVerify(
       verifyBearerTokenKeystore
