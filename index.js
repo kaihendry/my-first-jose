@@ -1,6 +1,5 @@
 const express = require("express");
 const jose = require("node-jose");
-const log = require("lambda-log");
 const mypubkey = require("./ks.json");
 
 function getBearerToken(headers) {
@@ -23,21 +22,22 @@ function getBearerToken(headers) {
 
 var app = express();
 
-app.use(express.json());
-
 app.get("/", async (req, res) => {
   var bearerToken = "";
   var verifyBearerTokenResult = null;
 
   try {
     bearerToken = getBearerToken(req.headers);
-    log.info("token", { bearerToken });
+    console.log("token", { bearerToken });
+
+    // if the bearerToken is signed by another kid, how do i know which key to use?
+
     let verifyBearerTokenKeystore = await jose.JWK.asKeyStore(mypubkey);
     verifyBearerTokenResult = await jose.JWS.createVerify(
       verifyBearerTokenKeystore
     ).verify(bearerToken);
   } catch (e) {
-    log.error(e);
+    console.error(e);
     return res.status(403).send("invalid bearer token");
   }
 

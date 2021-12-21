@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "lambda-log": "^3.1.0",
     "node-jose": "^2.0.0"
   },
   "devDependencies": {
